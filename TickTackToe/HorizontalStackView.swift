@@ -9,14 +9,23 @@
 import Foundation
 import UIKit
 class HorizontalStackView : UIStackView {
-    private let stackView : UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+    
+    required init(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    
+    private func commonInit() {
+        translatesAutoresizingMaskIntoConstraints = false
+        axis = .horizontal
+        distribution = .fillEqually
+    }
     
 }
 

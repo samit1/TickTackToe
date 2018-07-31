@@ -16,6 +16,7 @@
 		0F70A6AA2110539600BEF42C /* TickTackToeGridObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6A92110539600BEF42C /* TickTackToeGridObject.swift */; };
 		0F70A6AC211053F100BEF42C /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6AB211053F100BEF42C /* Player.swift */; };
 		0F70A6AE2110550100BEF42C /* TickTackToeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */; };
+		0F70A6B1211077DC00BEF42C /* TickTackToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		0F70A6A92110539600BEF42C /* TickTackToeGridObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeGridObject.swift; sourceTree = "<group>"; };
 		0F70A6AB211053F100BEF42C /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeGame.swift; sourceTree = "<group>"; };
+		0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				0F70A69521104ECC00BEF42C /* TickTackToeViewController.swift */,
 				0F70A6A5211050E800BEF42C /* TickTackToeViewContainer.swift */,
 				0F70A6A7211051C000BEF42C /* HorizontalStackView.swift */,
+				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
 				0F70A69A21104ECE00BEF42C /* Assets.xcassets */,
 				0F70A69C21104ECE00BEF42C /* LaunchScreen.storyboard */,
 				0F70A69F21104ECE00BEF42C /* Info.plist */,
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F70A69621104ECC00BEF42C /* TickTackToeViewController.swift in Sources */,
+				0F70A6B1211077DC00BEF42C /* TickTackToeView.swift in Sources */,
 				0F70A6AA2110539600BEF42C /* TickTackToeGridObject.swift in Sources */,
 				0F70A6AE2110550100BEF42C /* TickTackToeGame.swift in Sources */,
 				0F70A69421104ECC00BEF42C /* AppDelegate.swift in Sources */,
