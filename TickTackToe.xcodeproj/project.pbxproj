@@ -64,12 +64,10 @@
 		0F70A69221104ECC00BEF42C /* TickTackToe */ = {
 			isa = PBXGroup;
 			children = (
+				0F70A6B3211085A100BEF42C /* Views */,
+				0F70A6B221107D1300BEF42C /* Controller */,
 				0F70A6AF2110550E00BEF42C /* Model */,
 				0F70A69321104ECC00BEF42C /* AppDelegate.swift */,
-				0F70A69521104ECC00BEF42C /* TickTackToeViewController.swift */,
-				0F70A6A5211050E800BEF42C /* TickTackToeViewContainer.swift */,
-				0F70A6A7211051C000BEF42C /* HorizontalStackView.swift */,
-				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
 				0F70A69A21104ECE00BEF42C /* Assets.xcassets */,
 				0F70A69C21104ECE00BEF42C /* LaunchScreen.storyboard */,
 				0F70A69F21104ECE00BEF42C /* Info.plist */,
@@ -85,6 +83,24 @@
 				0F70A6AB211053F100BEF42C /* Player.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0F70A6B221107D1300BEF42C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A69521104ECC00BEF42C /* TickTackToeViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		0F70A6B3211085A100BEF42C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6A5211050E800BEF42C /* TickTackToeViewContainer.swift */,
+				0F70A6A7211051C000BEF42C /* HorizontalStackView.swift */,
+				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

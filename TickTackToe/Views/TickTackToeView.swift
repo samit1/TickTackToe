@@ -25,6 +25,7 @@ enum TickTackToeViewRepresentation {
     }
 }
 
+
 class TickTackToeView: UIButton {
 
     private var viewState = TickTackToeViewRepresentation.none
