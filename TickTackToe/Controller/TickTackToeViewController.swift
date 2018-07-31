@@ -9,20 +9,38 @@
 import UIKit
 
 class TickTackToeViewController: UIViewController {
-
+    
+    var gridContainer = SquareGridContainer()
+    var game = TickTackToeGame()
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.orange
-        let game = TickTackToeGame(player1: Player(name: "Sami"), player2: Player(name: "DeezMachine"))
-        game.newGame()
+        
+        gridContainer.configureGridWithViews(numberOfTotalItems: 3, numberPerRow: 3, viewType: TickTackToeView.self)
+        addGesturesToViews()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     
-
+    
+    private func addGesturesToViews() {
+        let views = gridContainer.getViewsInGrid()
+        
+        for view in views {
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(playerDidTapTickTackToe(_:)))
+        }
+    }
+    
+    @objc private func playerDidTapTickTackToe(_ recognizer: UITapGestureRecognizer) {
+        guard let tappedView = recognizer.view as? TickTackToeView else {
+            return
+        }
+        
+        game.selected(by: game.playerUp, atRow: tappedView.row, atCol: tappedView.col)
+        
+        
+        
+        
+    }
+    
+    
 }
 

@@ -18,8 +18,10 @@ enum MatchResult {
     case noWinnerGameOver
 }
 
+
+
 class TickTackToeGame {
-    
+
     /// First player of the game
     private (set) var player1: Player
     
@@ -29,10 +31,19 @@ class TickTackToeGame {
     /// Game is a nxn matrix. The game is specifically a 3x3 matrix
     private var n = 3
     
+    /// The player who owns the next move
+    private (set) var playerUp: Player
+    
+    
     init(player1: Player, player2: Player) {
         self.player1 = player1
         self.player2 = player2
+        playerUp = player1
         newGame()
+    }
+    
+    convenience init() {
+        self.init(player1: Player(name: "Player1"), player2: Player(name: "Player2"))
     }
     
     /// Game is a nxbn grid, represented as an array of arrays
@@ -54,12 +65,13 @@ class TickTackToeGame {
     }
     
     
-    func selected(by player: Player, at row: Int, at col: Int) {
-        guard tickTackToeGrid.indices.contains(row), tickTackToeGrid[0].indices.contains(col) else {
+    func selected(by player: Player, atRow: Int, atCol: Int) {
+        guard tickTackToeGrid.indices.contains(atRow), tickTackToeGrid[0].indices.contains(atCol) else {
             return
         }
         
-        tickTackToeGrid[row][col].occupyByPlayer(player)
+        tickTackToeGrid[atRow][atCol].occupyByPlayer(player)
+        switchPlayerUp()
         determineIfWinner()
     }
     
@@ -180,7 +192,20 @@ class TickTackToeGame {
             return nil
         }
     }
+    private func switchPlayerUp() {
+        if playerUp == player1 {
+            playerUp = player2
+        } else {
+            playerUp = player1
+        }
+    }
     
+    private func setPlayers(player1: String, player2: String) {
+        let player1 = Player(name: player1)
+        let player2 = Player(name: player2)
+        self.player1 = player1
+        self.player2 = player2
+    }
 }
  /*
      0.  1.  2.

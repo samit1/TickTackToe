@@ -38,7 +38,7 @@ class SquareGridContainer : UIView {
     /// - parameter numberPerRow: The total number of items each that should be in each row of the swuare grid
     /// - parameter viewType: The type of view that is being added to the grid
     /// - note: A fatal errror will occur if you try to configuere a non-square grid. For example a 3x3 grid is a square, but a 4x3 grid is not. 
-    func configureGridWithViews(numberOfTotalItems : Int, numberPerRow: Int, viewType: UIView.Type) {
+    func configureGridWithViews<T>(numberOfTotalItems : Int, numberPerRow: Int, viewType: T.Type) where T: UIView, T: GridViewConfigurable {
         /// Calculate number of rows required
         var rows = calculateRequiredRows(numberOfTotalItems: numberOfTotalItems, numberPerRow: numberPerRow)
         while rows >= 0 {
@@ -47,12 +47,20 @@ class SquareGridContainer : UIView {
             let rowStackView = HorizontalStackView()
             containingStackView.addArrangedSubview(rowStackView)
             while numLeft >= 0 {
-                
-                rowStackView.addArrangedSubview(viewType.init())
-                numLeft -= 3
+                var view = viewType.init()
+                view.row = rows
+                view.col = numLeft
+                view.setContentCompressionResistancePriority(.required, for: .horizontal)
+                view.setContentCompressionResistancePriority(.required, for: .vertical)
+                view.setContentHuggingPriority(.required, for: .horizontal)
+                view.setContentHuggingPriority(.required, for: .vertical)
+                rowStackView.addArrangedSubview(view)
+                numLeft -= 1
             }
-            rows -= 3
+            rows -= 1
         }
+        
+        addSubview(containingStackView)
     }
     
     

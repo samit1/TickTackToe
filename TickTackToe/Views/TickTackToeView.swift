@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol GridViewConfigurable  {
+    var row: Int {get set}
+    var col: Int {get set}
+}
 enum TickTackToeViewRepresentation {
     case x
     case o
@@ -26,10 +30,14 @@ enum TickTackToeViewRepresentation {
 }
 
 
-class TickTackToeView: UIButton {
+class TickTackToeView: UIButton, GridViewConfigurable {
 
     private var viewState = TickTackToeViewRepresentation.none
 
+    var row = 0
+    var col = 0
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView(viewRepresentation: .none)
