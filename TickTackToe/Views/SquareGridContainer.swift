@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 class SquareGridContainer : UIView {
     
+//    private func commonInit() {
+//        translatesAutoresizingMaskIntoConstraints = false
+//    }
+    
     /// Flag on whether to add view constraints
     private var viewsNeedConstains = true
     
@@ -17,7 +21,9 @@ class SquareGridContainer : UIView {
     private var containingStackView : UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fillEqually
         stackView.axis = .vertical
+        stackView.spacing = CGFloat(12.0)
         return stackView
     }()
     
@@ -41,15 +47,16 @@ class SquareGridContainer : UIView {
     func configureGridWithViews<T>(numberOfTotalItems : Int, numberPerRow: Int, viewType: T.Type) where T: UIView, T: GridViewConfigurable {
         /// Calculate number of rows required
         var rows = calculateRequiredRows(numberOfTotalItems: numberOfTotalItems, numberPerRow: numberPerRow)
-        while rows >= 0 {
-            
+        print(rows)
+        while rows > 0 {
+            print(rows)
             var numLeft = numberPerRow
             let rowStackView = HorizontalStackView()
             containingStackView.addArrangedSubview(rowStackView)
-            while numLeft >= 0 {
+            while numLeft > 0 {
                 var view = viewType.init()
-                view.row = rows
-                view.col = numLeft
+                view.row = rows - 1
+                view.col = numLeft - 1
                 view.setContentCompressionResistancePriority(.required, for: .horizontal)
                 view.setContentCompressionResistancePriority(.required, for: .vertical)
                 view.setContentHuggingPriority(.required, for: .horizontal)
@@ -59,8 +66,8 @@ class SquareGridContainer : UIView {
             }
             rows -= 1
         }
-        
         addSubview(containingStackView)
+        print(containingStackView.subviews)
     }
     
     
@@ -69,6 +76,8 @@ class SquareGridContainer : UIView {
         if numberOfTotalItems % numberPerRow != 0 {
             fatalError("This is not a square.")
         }
+        print(numberOfTotalItems)
+        print(numberPerRow)
         return numberOfTotalItems / numberPerRow
     }
     

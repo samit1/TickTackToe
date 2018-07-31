@@ -25,6 +25,7 @@ class HorizontalStackView : UIStackView {
         translatesAutoresizingMaskIntoConstraints = false
         axis = .horizontal
         distribution = .fillEqually
+        spacing = CGFloat(12.0)
     }
     
 }
