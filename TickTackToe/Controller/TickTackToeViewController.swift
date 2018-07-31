@@ -42,6 +42,7 @@ class TickTackToeViewController: UIViewController {
         
         for view in views {
             let gesture = UITapGestureRecognizer(target: self, action: #selector(playerDidTapTickTackToe(_:)))
+            view.addGestureRecognizer(gesture)
         }
     }
     
@@ -49,12 +50,40 @@ class TickTackToeViewController: UIViewController {
         guard let tappedView = recognizer.view as? TickTackToeView else {
             return
         }
+        print("was tapped")
+        print("Row is: \(tappedView.row)")
+        print("Col is: \(tappedView.col)")
         
-        game.selected(by: game.playerUp, atRow: tappedView.row, atCol: tappedView.col)
+        var playerUp: Player
+        switch game.playerUp {
+        case .player1Up(let player):
+            playerUp = player
+        case .player2Up(let player):
+            playerUp = player
+        }
         
+        game.selected(by: playerUp, atRow: tappedView.row, atCol: tappedView.col)
+        updateViewForModel()
+    }
+    
+    private func updateViewForModel() {
         
-        
-        
+        /// for each model object
+        /// go through and update the view
+        for row in game.tickTackToeGrid.indices {
+            for col in 0..<row {
+                let tickTackToeObj = game.tickTackToeGrid[row][col] /// model object
+                
+                guard let view = gridContainer.viewFor(row: row, col: col),
+                    let tickTackToeView = view as? TickTackToeView  else {return}
+                
+//                tickTackToeObj.occupyByPlayer(<#T##player: Player##Player#>)
+                
+                
+                //                    tickTackToeView.configureView(viewRepresentation: .)
+                
+            }
+        }
     }
     
     

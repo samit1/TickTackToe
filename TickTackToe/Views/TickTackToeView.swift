@@ -49,8 +49,11 @@ class TickTackToeView: UIButton, GridViewConfigurable {
     }
     
     func configureView(viewRepresentation: TickTackToeViewRepresentation) {
+        viewState = viewRepresentation
         translatesAutoresizingMaskIntoConstraints = false
+        print(backgroundColor)
         backgroundColor = viewState.stateColorRepresentation
+        print(backgroundColor)
     }
     
     

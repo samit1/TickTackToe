@@ -10,10 +10,6 @@ import Foundation
 import UIKit
 class SquareGridContainer : UIView {
     
-//    private func commonInit() {
-//        translatesAutoresizingMaskIntoConstraints = false
-//    }
-    
     /// Flag on whether to add view constraints
     private var viewsNeedConstains = true
     
@@ -46,30 +42,37 @@ class SquareGridContainer : UIView {
     /// - note: A fatal errror will occur if you try to configuere a non-square grid. For example a 3x3 grid is a square, but a 4x3 grid is not. 
     func configureGridWithViews<T>(numberOfTotalItems : Int, numberPerRow: Int, viewType: T.Type) where T: UIView, T: GridViewConfigurable {
         /// Calculate number of rows required
-        var rows = calculateRequiredRows(numberOfTotalItems: numberOfTotalItems, numberPerRow: numberPerRow)
-        print(rows)
-        while rows > 0 {
-            print(rows)
-            var numLeft = numberPerRow
+        let totalRows = calculateRequiredRows(numberOfTotalItems: numberOfTotalItems, numberPerRow: numberPerRow)
+        for row in 0..<totalRows {
             let rowStackView = HorizontalStackView()
             containingStackView.addArrangedSubview(rowStackView)
-            while numLeft > 0 {
+            
+            for col in 0..<numberPerRow {
                 var view = viewType.init()
-                view.row = rows - 1
-                view.col = numLeft - 1
+                view.row = row
+                view.col = col
                 view.setContentCompressionResistancePriority(.required, for: .horizontal)
                 view.setContentCompressionResistancePriority(.required, for: .vertical)
                 view.setContentHuggingPriority(.required, for: .horizontal)
                 view.setContentHuggingPriority(.required, for: .vertical)
                 rowStackView.addArrangedSubview(view)
-                numLeft -= 1
             }
-            rows -= 1
         }
+        
         addSubview(containingStackView)
         print(containingStackView.subviews)
     }
     
+    func viewFor(row: Int, col: Int) -> UIView? {
+        for view in getViewsInGrid() {
+            if let gridObject = view as? GridViewConfigurable {
+                if gridObject.row == row && gridObject.col == col {
+                    return view
+                }
+            }
+        }
+        return nil
+    }
     
     // TODO: Get better at error handling
     private func calculateRequiredRows(numberOfTotalItems: Int, numberPerRow: Int) -> Int {

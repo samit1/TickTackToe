@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 struct Player {
     private (set) var name : String!
     private (set) var uuid = NSUUID().uuidString
@@ -16,7 +15,6 @@ struct Player {
     init(name: String) {
         self.name = name 
     }
-    
 }
 
 

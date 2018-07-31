@@ -18,9 +18,18 @@ enum MatchResult {
     case noWinnerGameOver
 }
 
+enum TickTackToePlayers {
+    case Player1(Player)
+    case Player2(Player)
+}
 
 
 class TickTackToeGame {
+    
+    enum PlayerUp {
+        case player1Up(Player)
+        case player2Up(Player)
+    }
 
     /// First player of the game
     private (set) var player1: Player
@@ -32,13 +41,13 @@ class TickTackToeGame {
     private var n = 3
     
     /// The player who owns the next move
-    private (set) var playerUp: Player
+    private (set) var playerUp: PlayerUp
     
     
     init(player1: Player, player2: Player) {
         self.player1 = player1
         self.player2 = player2
-        playerUp = player1
+        playerUp = PlayerUp.player1Up(player1)
         newGame()
     }
     
@@ -75,8 +84,13 @@ class TickTackToeGame {
         determineIfWinner()
     }
     
+    func getTickTackToe(forRow: Int, forCol: Int) -> TickTackToeGridObject? {
+        guard tickTackToeGrid.indices.contains(forRow), tickTackToeGrid[0].indices.contains(forCol)  else {return nil}
+        
+        return tickTackToeGrid[forRow][forCol]
+    }
+    
     private func determineIfWinner() {
-
         
         /// Check rows of tickTackToeGrid for a winner
         for row in tickTackToeGrid {
@@ -193,10 +207,11 @@ class TickTackToeGame {
         }
     }
     private func switchPlayerUp() {
-        if playerUp == player1 {
-            playerUp = player2
-        } else {
-            playerUp = player1
+        switch playerUp {
+        case .player1Up(_):
+            playerUp = .player2Up(player2)
+        case .player2Up(_):
+            playerUp = .player1Up(player1)
         }
     }
     
@@ -206,6 +221,8 @@ class TickTackToeGame {
         self.player1 = player1
         self.player2 = player2
     }
+    
+    
 }
  /*
      0.  1.  2.
