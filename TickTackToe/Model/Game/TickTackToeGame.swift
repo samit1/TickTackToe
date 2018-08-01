@@ -71,8 +71,6 @@ class TickTackToeGame {
         self.player2 = player2
         
         self.playerUp = PlayerUp.player1Up(player1)
-        
-        setFirstPlayerForInit()
         newGame()
     }
     
@@ -272,11 +270,6 @@ class TickTackToeGame {
         
         self.player1 = player1
         self.player2 = player2
-    }
-    
-    
-    private func setFirstPlayerForInit() {
-        
     }
     
 }
