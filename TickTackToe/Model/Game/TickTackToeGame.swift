@@ -9,7 +9,8 @@
 import Foundation
 
 protocol MatchResultDelegate : class {
-    func matchConcluded(result: MatchResult)
+    func matchDidChangeStatus(result: MatchResult)
+    func invalidMoveDidAttemptAt(row: Int, col: Int)
 }
 
 enum MatchResult {
@@ -18,25 +19,33 @@ enum MatchResult {
     case noWinnerGameOver
 }
 
-
 class TickTackToeGame {
     
+    private (set) var gameState = MatchResult.resultTBD
+    
+    /// Defines which player owns the next moves, there are two cases.
     enum PlayerUp {
         case player1Up(TickTackToePlayer)
         case player2Up(TickTackToePlayer)
     }
 
     /// First player of the game
-    private (set) var player1: TickTackToePlayer
+    private var player1: TickTackToePlayer
     
     /// Second player of the game
-    private (set) var player2: TickTackToePlayer
+    private var player2: TickTackToePlayer
     
     /// Game is a nxn matrix. The game is specifically a 3x3 matrix
     private var n = 3
     
     /// The player who owns the next move
     private (set) var playerUp: PlayerUp
+    
+    /// Game is a nxn grid, represented as an array of arrays
+    private (set) var tickTackToeGrid = [[TickTackToeModelObject]]()
+    
+    /// The delegate responsible for what to do with a result of a match
+    weak var matchDelegate : MatchResultDelegate?
     
     /// Initializes a new game
     init(player1: TickTackToePlayer, player2: TickTackToePlayer) {
@@ -50,12 +59,6 @@ class TickTackToeGame {
     convenience init() {
         self.init(player1: TickTackToePlayer(playerType: .player1), player2: TickTackToePlayer(playerType: .player2))
     }
-    
-    /// Game is a nxn grid, represented as an array of arrays
-    private (set) var tickTackToeGrid = [[TickTackToeModelObject]]()
-    
-    /// The delegate responsible for what to do with a result of a match
-    weak var matchDelegate : MatchResultDelegate?
     
     /// Begin a new game
     func newGame() {
@@ -74,9 +77,20 @@ class TickTackToeGame {
             return
         }
         
-        tickTackToeGrid[atRow][atCol].occupyByPlayer(player)
-        switchPlayerUp()
-        determineIfWinner()
+        guard case .resultTBD = gameState else {
+            return 
+        }
+        
+        /// The current occupation of `tickTackToe` needs to be checked. An occupation state can change from `unoccupied` to `occupied`, but cannot change from `occupied` with one player to `occupied` with another player
+        switch tickTackToeGrid[atRow][atCol].occupationState {
+        case .unoccupied:
+            print("Unoccupied is about to change")
+            tickTackToeGrid[atRow][atCol].changeOccupationState(.occupied(player))
+            switchPlayerUp()
+            determineIfWinner()
+        case .occupied(_):
+            matchDelegate?.invalidMoveDidAttemptAt(row: atRow, col: atCol)
+        }
     }
     
     /// Getter method to retrieve an individual TickTackToe object. Method safely checks for out of bounds conditions and returns nil if an object does not exist.
@@ -99,9 +113,7 @@ class TickTackToeGame {
             }
             
             /// If winner found, report and exit
-            if let winner = determineWinningPlayer(tickTackToes: tickTackToes) {
-                print("Won horizontally")
-                matchDelegate?.matchConcluded(result: .won(winner))
+            if reportIfWinner(tickTackToes: tickTackToes) {
                 return
             }
         }
@@ -114,9 +126,7 @@ class TickTackToeGame {
             }
             
             /// If winner found, report and exit
-            if let winner = determineWinningPlayer(tickTackToes: tickTackToes) {
-                print("Won vertically")
-                matchDelegate?.matchConcluded(result: .won(winner))
+            if reportIfWinner(tickTackToes: tickTackToes) {
                 return
             }
         }
@@ -133,9 +143,7 @@ class TickTackToeGame {
         }
         
         /// If winner found, report and exit
-        if let winner = determineWinningPlayer(tickTackToes: diagonalObjects) {
-            print("won LXR")
-            matchDelegate?.matchConcluded(result: .won(winner))
+        if reportIfWinner(tickTackToes: diagonalObjects) {
             return
         }
         
@@ -152,20 +160,32 @@ class TickTackToeGame {
         }
         
         /// If winner found, report and exit
-        if let winner = determineWinningPlayer(tickTackToes: diagonalObjects) {
-            print("won RXL")
-            matchDelegate?.matchConcluded(result: .won(winner))
+        if reportIfWinner(tickTackToes: diagonalObjects) {
             return
         }
         
         /// If no winner is found, check if all grid spaces are occupied
         if fullyOccupied() {
             /// If all are occupied and no winner was found then game is over and there is no winner
-            matchDelegate?.matchConcluded(result: .noWinnerGameOver)
+            matchDelegate?.matchDidChangeStatus(result: .noWinnerGameOver)
+            gameState = .noWinnerGameOver
         } else {
             /// Otherwise the results are still pending
-            matchDelegate?.matchConcluded(result: .resultTBD)
+            matchDelegate?.matchDidChangeStatus(result: .resultTBD)
+            gameState = .resultTBD
         }
+    }
+    
+    /// If there is a winner, it reports it to the delegate and changes the state of the game
+    /// - parameter tickTackToes: An array of TickTackToe objects to be evalauted for a winner
+    /// - returns: A boolean indicator of whether there was a winner or not
+    @discardableResult private func reportIfWinner(tickTackToes: [TickTackToeModelObject]) -> Bool {
+        if let winner = determineWinningPlayer(tickTackToes: tickTackToes) {
+            matchDelegate?.matchDidChangeStatus(result: .won(winner))
+            gameState = .won(winner)
+            return true
+        }
+        return false
     }
     
     /// Helper method to determine whether all grid objects are occupied
@@ -233,17 +253,6 @@ class TickTackToeGame {
     
     
 }
- /*
-     0.  1.  2.
-0.   x |   | O
-1.   O | X | O
-2.   X | X | O
 
- 
- 0,0   0,2
- 1,1   1,1
- 2,2   2,0
- 
- */
 
 

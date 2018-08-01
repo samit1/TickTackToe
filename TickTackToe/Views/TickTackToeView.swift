@@ -33,7 +33,7 @@ enum TickTackToeViewRepresentation {
 class TickTackToeView: UIButton, GridViewConfigurable {
 
     private var viewState = TickTackToeViewRepresentation.none
-
+    private var viewNeedsConstraints = true
     var row = 0
     var col = 0
     
@@ -52,8 +52,20 @@ class TickTackToeView: UIButton, GridViewConfigurable {
         viewState = viewRepresentation
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = viewState.stateColorRepresentation
+        
+//        widthAnchor.constraint(equalTo: heightAnchor, multiplier: 1.0).isActive = true
+        
     }
-    
+
+//    override func updateConstraints() {
+//        if viewNeedsConstraints {
+//            viewNeedsConstraints = !viewNeedsConstraints
+//            widthAnchor.constraint(equalTo: heightAnchor, multiplier: 1.0).isActive = true
+//            
+//        }
+//        
+//        super.updateConstraints()
+//    }
     
     
 

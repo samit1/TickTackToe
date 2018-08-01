@@ -91,8 +91,7 @@ class TickTackToeViewController: UIViewController {
             for col in row.indices {
                 let tickTackToeObj = game.tickTackToeGrid[rowIndex][col]
                 /// Find respective view in gridContainer
-                guard let view = gridContainer.viewFor(row: rowIndex, col: col),
-                    let tickTackToeView = view as? TickTackToeView  else {return}
+                guard let tickTackToeView = getTickTackToeViewFor(row: rowIndex, col: col) else {return}
                
                 let occupationState = tickTackToeObj.occupationState
                 switch occupationState {
@@ -110,16 +109,62 @@ class TickTackToeViewController: UIViewController {
                     }
                     
                 }
-                
-                
             }
         }
     }
+    
+    private func animateGridObjectAt(row: Int, col: Int) {
+        if let tickTackToeView = getTickTackToeViewFor(row: row, col: col) {
+            print("About to animate")
+            let propertyAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 0.3) {
+                tickTackToeView.transform = CGAffineTransform(translationX: 3, y: 3)
+            }
+            
+            propertyAnimator.addAnimations({
+                tickTackToeView.transform = CGAffineTransform(translationX: 0, y: 0)
+
+            }, delayFactor: 0.2)
+            propertyAnimator.startAnimation()
+        }
+    }
+    
+    private func getTickTackToeViewFor(row: Int, col: Int) -> TickTackToeView? {
+        guard let view = gridContainer.viewFor(row: row, col: col),
+            let tickTackToeView = view as? TickTackToeView  else {
+                return nil
+        }
+        
+        return tickTackToeView
+    }
+    
+    private func presentResultScreen(with title: String) {
+        let destVC = GameResultViewController()
+        destVC.titleForResults = title
+        present(destVC, animated: true, completion: nil)
+    }
+    
 }
 
 
 extension TickTackToeViewController : MatchResultDelegate {
-    func matchConcluded(result: MatchResult) {
-        print(result)
+    func invalidMoveDidAttemptAt(row: Int, col: Int) {
+        print("Invalid move")
+        animateGridObjectAt(row: row, col: col)
     }
+    
+    func matchDidChangeStatus(result: MatchResult) {
+        switch result {
+        case .noWinnerGameOver:
+            presentResultScreen(with: "There was no winner. Start over?")
+        case .resultTBD:
+            print("TBD")
+        case .won(let winningPlayer):
+            print(winningPlayer)
+            presentResultScreen(with: "\(winningPlayer) is the winner! Play again?")
+        }
+    }
+    
+    
+    
+    
 }

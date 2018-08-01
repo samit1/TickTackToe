@@ -19,6 +19,7 @@
 		0F70A6B1211077DC00BEF42C /* TickTackToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */; };
 		0F70A6B52110DCAE00BEF42C /* testboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F70A6B42110DCAE00BEF42C /* testboard.storyboard */; };
 		0F70A6B92111DE8600BEF42C /* TickTackToePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */; };
+		0F7507D42111FD5F00395E82 /* GameResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7507D32111FD5F00395E82 /* GameResultViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeView.swift; sourceTree = "<group>"; };
 		0F70A6B42110DCAE00BEF42C /* testboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = testboard.storyboard; sourceTree = "<group>"; };
 		0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToePlayer.swift; sourceTree = "<group>"; };
+		0F7507D32111FD5F00395E82 /* GameResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,10 +84,9 @@
 		0F70A6AF2110550E00BEF42C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */,
-				0F70A6A92110539600BEF42C /* TickTackToeModelObject.swift */,
-				0F70A6AB211053F100BEF42C /* Player.swift */,
-				0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */,
+				0F7507D22111F42C00395E82 /* TickTackToeObject */,
+				0F7507D12111F41C00395E82 /* Game */,
+				0F7507D02111F40C00395E82 /* Players */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -94,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				0F70A69521104ECC00BEF42C /* TickTackToeViewController.swift */,
+				0F7507D32111FD5F00395E82 /* GameResultViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -107,6 +109,31 @@
 				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		0F7507D02111F40C00395E82 /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6AB211053F100BEF42C /* Player.swift */,
+				0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */,
+			);
+			path = Players;
+			sourceTree = "<group>";
+		};
+		0F7507D12111F41C00395E82 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		0F7507D22111F42C00395E82 /* TickTackToeObject */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6A92110539600BEF42C /* TickTackToeModelObject.swift */,
+			);
+			path = TickTackToeObject;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,6 +212,7 @@
 				0F70A6B1211077DC00BEF42C /* TickTackToeView.swift in Sources */,
 				0F70A6AA2110539600BEF42C /* TickTackToeModelObject.swift in Sources */,
 				0F70A6AE2110550100BEF42C /* TickTackToeGame.swift in Sources */,
+				0F7507D42111FD5F00395E82 /* GameResultViewController.swift in Sources */,
 				0F70A69421104ECC00BEF42C /* AppDelegate.swift in Sources */,
 				0F70A6A6211050E800BEF42C /* SquareGridContainer.swift in Sources */,
 				0F70A6AC211053F100BEF42C /* Player.swift in Sources */,

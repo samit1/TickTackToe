@@ -21,7 +21,7 @@ enum TickTackToeState : Hashable {
 
 struct TickTackToeModelObject {
     
-    /// Tick tack toe object can be occupied by a player
+    /// Tick tack toe object can be occupied by a player. The object always begins as unoccupied.
     private (set) var occupationState = TickTackToeState.unoccupied
     
     /// Tick tack toe object's cooresponding row position
@@ -38,9 +38,11 @@ struct TickTackToeModelObject {
         self.col = col
     }
     
-    mutating func occupyByPlayer(_ player: TickTackToePlayer) {
-        occupationState = .occupied(player)
+    /// Changes the occupation state for the model
+    mutating func changeOccupationState(_ newState: TickTackToeState) {
+        occupationState = newState
     }
+    
 }
 
 extension TickTackToeModelObject : CustomStringConvertible {
