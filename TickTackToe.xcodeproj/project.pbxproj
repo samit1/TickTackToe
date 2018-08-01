@@ -17,7 +17,6 @@
 		0F70A6AC211053F100BEF42C /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6AB211053F100BEF42C /* Player.swift */; };
 		0F70A6AE2110550100BEF42C /* TickTackToeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */; };
 		0F70A6B1211077DC00BEF42C /* TickTackToeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */; };
-		0F70A6B52110DCAE00BEF42C /* testboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0F70A6B42110DCAE00BEF42C /* testboard.storyboard */; };
 		0F70A6B92111DE8600BEF42C /* TickTackToePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */; };
 		0F7507D42111FD5F00395E82 /* GameResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F7507D32111FD5F00395E82 /* GameResultViewController.swift */; };
 /* End PBXBuildFile section */
@@ -35,7 +34,6 @@
 		0F70A6AB211053F100BEF42C /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0F70A6AD2110550100BEF42C /* TickTackToeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeGame.swift; sourceTree = "<group>"; };
 		0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToeView.swift; sourceTree = "<group>"; };
-		0F70A6B42110DCAE00BEF42C /* testboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = testboard.storyboard; sourceTree = "<group>"; };
 		0F70A6B82111DE8600BEF42C /* TickTackToePlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickTackToePlayer.swift; sourceTree = "<group>"; };
 		0F7507D32111FD5F00395E82 /* GameResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameResultViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,10 +101,8 @@
 		0F70A6B3211085A100BEF42C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				0F70A6A5211050E800BEF42C /* SquareGridContainer.swift */,
-				0F70A6A7211051C000BEF42C /* HorizontalStackView.swift */,
-				0F70A6B42110DCAE00BEF42C /* testboard.storyboard */,
-				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
+				0FA066DE2112339D001A0F76 /* Reusable Containers */,
+				0FA066DD21123393001A0F76 /* TickTackToeViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -134,6 +130,23 @@
 				0F70A6A92110539600BEF42C /* TickTackToeModelObject.swift */,
 			);
 			path = TickTackToeObject;
+			sourceTree = "<group>";
+		};
+		0FA066DD21123393001A0F76 /* TickTackToeViews */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6B0211077DC00BEF42C /* TickTackToeView.swift */,
+			);
+			path = TickTackToeViews;
+			sourceTree = "<group>";
+		};
+		0FA066DE2112339D001A0F76 /* Reusable Containers */ = {
+			isa = PBXGroup;
+			children = (
+				0F70A6A5211050E800BEF42C /* SquareGridContainer.swift */,
+				0F70A6A7211051C000BEF42C /* HorizontalStackView.swift */,
+			);
+			path = "Reusable Containers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +207,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0F70A6B52110DCAE00BEF42C /* testboard.storyboard in Resources */,
 				0F70A69E21104ECE00BEF42C /* LaunchScreen.storyboard in Resources */,
 				0F70A69B21104ECE00BEF42C /* Assets.xcassets in Resources */,
 			);

@@ -8,8 +8,9 @@
 
 import UIKit
 
-class TickTackToeViewController: UIViewController {
 
+/// The controller for the TickTackToe game
+class TickTackToeViewController: UIViewController {
 
     /// Container view for TickTackToe grid
     private var gridContainer : SquareGridContainer = {
@@ -24,7 +25,7 @@ class TickTackToeViewController: UIViewController {
         game.matchDelegate = self
         return game
     }()
-]
+
     // MARK: Lifecycle Methods
     
     override func viewDidLoad() {
@@ -48,6 +49,73 @@ class TickTackToeViewController: UIViewController {
         gridContainer.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
         gridContainer.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
+    
+    // MARK: Game states
+    
+    /// Presents an instance of the `GameResultsViewController`
+    private func presentResultScreen(with title: String) {
+        let destVC = GameResultViewController()
+        destVC.titleForResults = title
+        destVC.delegate = self
+        present(destVC, animated: true, completion: nil)
+    }
+    
+    /// Begins a new game
+    private func beginNewGame() {
+        game.newGame()
+        updateViewForModel()
+    }
+    
+    /// Handles whether `presentResultScreen` should be called based on the `MatchResult`
+    private func showResultScreenIfNeeded(result: MatchResult) {
+        switch result {
+        case .noWinnerGameOver:
+            presentResultScreen(with: "There was no winner. Start over?")
+        case .resultTBD:
+            print("TBD")
+        case .won(let winningPlayer):
+            print(winningPlayer)
+            presentResultScreen(with: "\(winningPlayer) is the winner! Play again?")
+        }
+    }
+    
+    /**
+     Responsible for updating the view based on the model.
+     ## There are 3 different view states that need to be accounted for
+     - Player 1 is occupying a space
+     - Player 2 is occupying a space
+     - The space is unoccupied
+     */
+    private func updateViewForModel() {
+        
+        /// Iterate through objects in data model
+        for (rowIndex, row) in game.tickTackToeGrid.enumerated() {
+            for col in row.indices {
+                let tickTackToeObj = game.tickTackToeGrid[rowIndex][col]
+                /// Find respective view in gridContainer
+                guard let tickTackToeView = getTickTackToeViewFor(row: rowIndex, col: col) else {return}
+                
+                let occupationState = tickTackToeObj.occupationState
+                switch occupationState {
+                case .unoccupied:
+                    /// The object is unoccupied, update viewRepresentation
+                    tickTackToeView.configureView(viewRepresentation: .none)
+                case .occupied(let player):
+                    switch player.playerType {
+                    case .player1:
+                        /// The object is occupied by player1, update viewRepresentation
+                        tickTackToeView.configureView(viewRepresentation: .x)
+                    case .player2:
+                        /// The object is occupied by player2, update viewRepresentation
+                        tickTackToeView.configureView(viewRepresentation: .o)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    // MARK: Gestures
     
     /// Adds tap gesture for each view in the `gridContainer`
     private func addGesturesToViews() {
@@ -79,43 +147,11 @@ class TickTackToeViewController: UIViewController {
         game.selected(by: playerUp, atRow: tappedView.row, atCol: tappedView.col)
         updateViewForModel()
     }
-    /**
-     Updates the view based on the model.
-     ## There are 3 different view states that need to be accounted for
-     - Player 1 is occupying a space
-     - Player 2 is occupying a space
-     - The space is unoccupied
-     */
-    private func updateViewForModel() {
-        
-        /// Iterate through objects in data model
-        for (rowIndex, row) in game.tickTackToeGrid.enumerated() {
-            for col in row.indices {
-                let tickTackToeObj = game.tickTackToeGrid[rowIndex][col]
-                /// Find respective view in gridContainer
-                guard let tickTackToeView = getTickTackToeViewFor(row: rowIndex, col: col) else {return}
-               
-                let occupationState = tickTackToeObj.occupationState
-                switch occupationState {
-                case .unoccupied:
-                    /// The object is unoccupied, update viewRepresentation
-                    tickTackToeView.configureView(viewRepresentation: .none)
-                case .occupied(let player):
-                    switch player.playerType {
-                    case .player1:
-                        /// The object is occupied by player1, update viewRepresentation
-                        tickTackToeView.configureView(viewRepresentation: .x)
-                    case .player2:
-                        /// The object is occupied by player2, update viewRepresentation
-                        tickTackToeView.configureView(viewRepresentation: .o)
-                    }
-                    
-                }
-            }
-        }
-    }
     
-    private func animateGridObjectAt(row: Int, col: Int) {
+    // MARK: Animation
+    
+    /// Provides a shake animation for a `gridContainer` row and cell
+    private func animateShakingOfGridObjectAt(row: Int, col: Int) {
         if let tickTackToeView = getTickTackToeViewFor(row: row, col: col) {
             let propertyAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 0.3) {
                 tickTackToeView.transform = CGAffineTransform(translationX: 3, y: 3)
@@ -129,35 +165,29 @@ class TickTackToeViewController: UIViewController {
         }
     }
     
+    // MARK: Private
+    
+    /// Gets the a `TickTackToeView` for a cooresponing `row` and `col`
     private func getTickTackToeViewFor(row: Int, col: Int) -> TickTackToeView? {
         guard let view = gridContainer.viewFor(row: row, col: col),
             let tickTackToeView = view as? TickTackToeView  else {
                 return nil
         }
-        
         return tickTackToeView
     }
     
-    private func presentResultScreen(with title: String) {
-        let destVC = GameResultViewController()
-        destVC.titleForResults = title
-        destVC.delegate = self
-        present(destVC, animated: true, completion: nil)
-    }
-    
-    private func beginNewGame() {
-        game.newGame()
-        updateViewForModel()
-    }
-    
+    /// Creates the title for which player is up
     private func createTitleForPlayer(player: TickTackToePlayer) -> String {
         return "\(player.playerType.rawValue) is up!"
     }
     
+    /// Sets the navigation title
     private func setNavTitle(to title: String) {
         navigationItem.title = title
     }
     
+    /// Sets the navigation title at the first load of the game. This is done because the navigation title is only changed when it is notified by the delegate that it's another player's turn.
+    /// To ensure that the title is shown at the first load, this method is added to explicitly set the title
     private func setTitleForLoad() {
         switch game.playerUp {
         case .player1Up(let player):
@@ -166,32 +196,28 @@ class TickTackToeViewController: UIViewController {
             setNavTitle(to: createTitleForPlayer(player: player))
         }
     }
-    
 }
 
-
+// MARK: MatchResultDelegate methods
 extension TickTackToeViewController : MatchResultDelegate {
+    func userDidAttemptMoveAfterGame(result: MatchResult) {
+        showResultScreenIfNeeded(result: result)
+    }
+    
     func playerUpDidChangeTo(player: TickTackToePlayer) {
         setNavTitle(to: createTitleForPlayer(player: player))
     }
     
     func invalidMoveDidAttemptAt(row: Int, col: Int) {
-        animateGridObjectAt(row: row, col: col)
+        animateShakingOfGridObjectAt(row: row, col: col)
     }
     
     func matchDidChangeStatus(result: MatchResult) {
-        switch result {
-        case .noWinnerGameOver:
-            presentResultScreen(with: "There was no winner. Start over?")
-        case .resultTBD:
-            print("TBD")
-        case .won(let winningPlayer):
-            print(winningPlayer)
-            presentResultScreen(with: "\(winningPlayer) is the winner! Play again?")
-        }
+        showResultScreenIfNeeded(result: result)
     }
 }
 
+// MARK: GameResultsPopOverDelegate
 extension TickTackToeViewController : GameResultsPopOverDelegate {
     func userDidSelectNewGame() {
         beginNewGame()

@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+
+/// A reusable horizontal UIStackView
 class HorizontalStackView : UIStackView {
     
     override init(frame: CGRect) {

@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+
+/// A reusable square grid of `UIViews` that can be configured 
 class SquareGridContainer : UIView {
     
     /// Flag on whether to add view constraints

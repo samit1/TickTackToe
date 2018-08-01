@@ -12,6 +12,8 @@ protocol GridViewConfigurable  {
     var row: Int {get set}
     var col: Int {get set}
 }
+
+/// Manages how the view of each ticktacktoe should appear for a ticktacktoe game
 enum TickTackToeViewRepresentation {
     case x
     case o
@@ -29,7 +31,7 @@ enum TickTackToeViewRepresentation {
     }
 }
 
-
+/// Manages the indiviaul ticktacktoe views
 class TickTackToeView: UIButton, GridViewConfigurable {
 
     private var viewState = TickTackToeViewRepresentation.none
@@ -52,22 +54,5 @@ class TickTackToeView: UIButton, GridViewConfigurable {
         viewState = viewRepresentation
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = viewState.stateColorRepresentation
-        
-//        widthAnchor.constraint(equalTo: heightAnchor, multiplier: 1.0).isActive = true
-        
     }
-
-//    override func updateConstraints() {
-//        if viewNeedsConstraints {
-//            viewNeedsConstraints = !viewNeedsConstraints
-//            widthAnchor.constraint(equalTo: heightAnchor, multiplier: 1.0).isActive = true
-//            
-//        }
-//        
-//        super.updateConstraints()
-//    }
-    
-    
-
-
 }

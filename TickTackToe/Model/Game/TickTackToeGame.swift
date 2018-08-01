@@ -9,9 +9,14 @@
 import Foundation
 
 protocol MatchResultDelegate : class {
+    /// Called when the match status changed
     func matchDidChangeStatus(result: MatchResult)
+    /// Called when the user attempts to move to an invalid position. This is specifically called when a user tries to move to a position that another user is already in
     func invalidMoveDidAttemptAt(row: Int, col: Int)
+    /// Called when the game switches whose turn it is
     func playerUpDidChangeTo(player: TickTackToePlayer)
+    /// Called when the game is over and the user attempts to make a move
+    func userDidAttemptMoveAfterGame(result: MatchResult)
 }
 
 enum MatchResult {
@@ -97,6 +102,7 @@ class TickTackToeGame {
         }
         
         guard case .resultTBD = gameState else {
+            matchDelegate?.userDidAttemptMoveAfterGame(result: gameState)
             return 
         }
         

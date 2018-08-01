@@ -9,6 +9,7 @@
 import UIKit
 
 protocol GameResultsPopOverDelegate : class {
+    /// Called when the user asked for a new game 
     func userDidSelectNewGame()
 }
 
