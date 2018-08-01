@@ -24,14 +24,7 @@ class TickTackToeViewController: UIViewController {
         game.matchDelegate = self
         return game
     }()
-    
-//    private var navigationTitle = "" {didSet {
-//        navigationItem.title = navigationTitle
-//        }
-//    }
-//
-//
-    
+]
     // MARK: Lifecycle Methods
     
     override func viewDidLoad() {
@@ -40,7 +33,7 @@ class TickTackToeViewController: UIViewController {
         
         gridContainer.configureGridWithViews(numberOfTotalItems: 9, numberPerRow: 3, viewType: TickTackToeView.self)
         
-//        setNavTitle(to: createTitleForPlayer(player: game.playerUp))
+        setTitleForLoad()
         addGesturesToViews()
     }
     
@@ -163,6 +156,15 @@ class TickTackToeViewController: UIViewController {
     
     private func setNavTitle(to title: String) {
         navigationItem.title = title
+    }
+    
+    private func setTitleForLoad() {
+        switch game.playerUp {
+        case .player1Up(let player):
+            setNavTitle(to: createTitleForPlayer(player: player))
+        case .player2Up(let player):
+            setNavTitle(to: createTitleForPlayer(player: player))
+        }
     }
     
 }
