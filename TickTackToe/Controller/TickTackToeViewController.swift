@@ -10,13 +10,18 @@ import UIKit
 
 class TickTackToeViewController: UIViewController {
     
+    /// Container view for TickTackToe grid
     var gridContainer : SquareGridContainer = {
         let grid = SquareGridContainer()
         grid.translatesAutoresizingMaskIntoConstraints = false
         return grid
     }()
     
+    /// TickTackToe brain and model
     var game = TickTackToeGame()
+    
+    // MARK: Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.orange
@@ -37,6 +42,7 @@ class TickTackToeViewController: UIViewController {
         gridContainer.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
+    /// Adds tap gesture for each view in the `gridContainer`
     private func addGesturesToViews() {
         let views = gridContainer.getViewsInGrid()
         
@@ -46,6 +52,7 @@ class TickTackToeViewController: UIViewController {
         }
     }
     
+    /// Handler method for when a view in the `gridContainer` is tapped
     @objc private func playerDidTapTickTackToe(_ recognizer: UITapGestureRecognizer) {
         guard let tappedView = recognizer.view as? TickTackToeView else {
             return
@@ -65,7 +72,13 @@ class TickTackToeViewController: UIViewController {
         game.selected(by: playerUp, atRow: tappedView.row, atCol: tappedView.col)
         updateViewForModel()
     }
-    
+    /**
+     Updates the view based on the model.
+     ## There are 3 different view states that need to be accounted for
+     - Player 1 is occupying a space
+     - Player 2 is occupying a space
+     - The space is unoccupied
+    */
     private func updateViewForModel() {
         
         /// for each model object
