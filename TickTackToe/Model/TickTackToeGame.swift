@@ -86,6 +86,7 @@ class TickTackToeGame {
         return tickTackToeGrid[forRow][forCol]
     }
     
+    /// QUESTION: How do I test this?
     /// Determine if there is a winner for the game
     /// Each time this method is called, the delegate is notified of the `MatchResult`
     private func determineIfWinner() {
@@ -99,6 +100,7 @@ class TickTackToeGame {
             
             /// If winner found, report and exit
             if let winner = determineWinningPlayer(tickTackToes: tickTackToes) {
+                print("Won horizontally")
                 matchDelegate?.matchConcluded(result: .won(winner))
                 return
             }
@@ -113,6 +115,7 @@ class TickTackToeGame {
             
             /// If winner found, report and exit
             if let winner = determineWinningPlayer(tickTackToes: tickTackToes) {
+                print("Won vertically")
                 matchDelegate?.matchConcluded(result: .won(winner))
                 return
             }
@@ -131,23 +134,26 @@ class TickTackToeGame {
         
         /// If winner found, report and exit
         if let winner = determineWinningPlayer(tickTackToes: diagonalObjects) {
+            print("won LXR")
             matchDelegate?.matchConcluded(result: .won(winner))
             return
         }
         
         row = 0
-        col = 0
+        col = n - 1
         diagonalObjects.removeAll()
         
         /// Check RXL diagonals of tickTackToeGrid for a winner
         while row < n && col >= 0 {
             diagonalObjects.append(tickTackToeGrid[row][col])
+            print("row: \(row) and col: \(col)" )
             row += 1
             col -= 1
         }
         
         /// If winner found, report and exit
         if let winner = determineWinningPlayer(tickTackToes: diagonalObjects) {
+            print("won RXL")
             matchDelegate?.matchConcluded(result: .won(winner))
             return
         }

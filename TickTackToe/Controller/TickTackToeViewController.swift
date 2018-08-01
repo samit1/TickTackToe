@@ -9,16 +9,21 @@
 import UIKit
 
 class TickTackToeViewController: UIViewController {
-    
+
+
     /// Container view for TickTackToe grid
-    var gridContainer : SquareGridContainer = {
+    private var gridContainer : SquareGridContainer = {
         let grid = SquareGridContainer()
         grid.translatesAutoresizingMaskIntoConstraints = false
         return grid
     }()
     
     /// TickTackToe brain and model
-    var game = TickTackToeGame()
+    private lazy var game : TickTackToeGame = {
+        let game = TickTackToeGame()
+        game.matchDelegate = self
+        return game
+    }()
     
     // MARK: Lifecycle Methods
     
@@ -78,35 +83,43 @@ class TickTackToeViewController: UIViewController {
      - Player 1 is occupying a space
      - Player 2 is occupying a space
      - The space is unoccupied
-    */
+     */
     private func updateViewForModel() {
         
-        /// for each model object
-        /// go through and update the view
+        /// Iterate through objects in data model
         for (rowIndex, row) in game.tickTackToeGrid.enumerated() {
             for col in row.indices {
-                let tickTackToeObj = game.tickTackToeGrid[rowIndex][col] /// model object
+                let tickTackToeObj = game.tickTackToeGrid[rowIndex][col]
+                /// Find respective view in gridContainer
                 guard let view = gridContainer.viewFor(row: rowIndex, col: col),
                     let tickTackToeView = view as? TickTackToeView  else {return}
-                    let occupyingPlayer = tickTackToeObj.occupationState
-                    switch occupyingPlayer {
-                    case .unoccupied:
-                        tickTackToeView.configureView(viewRepresentation: .none)
-                    case .occupied(let player):
-                        switch player.playerType {
-                        case .player1:
-                            tickTackToeView.configureView(viewRepresentation: .x)
-                        case .player2:
-                            tickTackToeView.configureView(viewRepresentation: .o)
-                        }
-                        
+               
+                let occupationState = tickTackToeObj.occupationState
+                switch occupationState {
+                case .unoccupied:
+                    /// The object is unoccupied, update viewRepresentation
+                    tickTackToeView.configureView(viewRepresentation: .none)
+                case .occupied(let player):
+                    switch player.playerType {
+                    case .player1:
+                        /// The object is occupied by player1, update viewRepresentation
+                        tickTackToeView.configureView(viewRepresentation: .x)
+                    case .player2:
+                        /// The object is occupied by player2, update viewRepresentation
+                        tickTackToeView.configureView(viewRepresentation: .o)
+                    }
+                    
                 }
                 
                 
             }
         }
     }
-    
-    
 }
 
+
+extension TickTackToeViewController : MatchResultDelegate {
+    func matchConcluded(result: MatchResult) {
+        print(result)
+    }
+}

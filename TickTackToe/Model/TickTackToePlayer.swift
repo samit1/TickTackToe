@@ -21,3 +21,9 @@ class TickTackToePlayer : Player {
         super.init(name: playerType.rawValue)
     }
 }
+
+extension TickTackToePlayer : CustomStringConvertible {
+    var description : String {
+        return playerType.rawValue
+    }
+}
