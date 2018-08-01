@@ -10,7 +10,6 @@ import UIKit
 
 protocol GameResultsPopOverDelegate : class {
     func userDidSelectNewGame()
-    func userDidRequestDismissal()
 }
 
 class GameResultViewController: UIViewController {
@@ -71,7 +70,6 @@ class GameResultViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     @objc private func dismissButtonPressed() {
-        delegate?.userDidRequestDismissal()
         dismiss(animated: true, completion: nil)
     }
     

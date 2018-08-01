@@ -115,7 +115,6 @@ class TickTackToeViewController: UIViewController {
     
     private func animateGridObjectAt(row: Int, col: Int) {
         if let tickTackToeView = getTickTackToeViewFor(row: row, col: col) {
-            print("About to animate")
             let propertyAnimator = UIViewPropertyAnimator(duration: 0.3, dampingRatio: 0.3) {
                 tickTackToeView.transform = CGAffineTransform(translationX: 3, y: 3)
             }
@@ -140,7 +139,13 @@ class TickTackToeViewController: UIViewController {
     private func presentResultScreen(with title: String) {
         let destVC = GameResultViewController()
         destVC.titleForResults = title
+        destVC.delegate = self
         present(destVC, animated: true, completion: nil)
+    }
+    
+    private func beginNewGame() {
+        game.newGame()
+        updateViewForModel()
     }
     
 }
@@ -148,7 +153,6 @@ class TickTackToeViewController: UIViewController {
 
 extension TickTackToeViewController : MatchResultDelegate {
     func invalidMoveDidAttemptAt(row: Int, col: Int) {
-        print("Invalid move")
         animateGridObjectAt(row: row, col: col)
     }
     
@@ -163,8 +167,14 @@ extension TickTackToeViewController : MatchResultDelegate {
             presentResultScreen(with: "\(winningPlayer) is the winner! Play again?")
         }
     }
+}
+
+extension TickTackToeViewController : GameResultsPopOverDelegate {
+    func userDidSelectNewGame() {
+        beginNewGame()
+    }
     
-    
+
     
     
 }

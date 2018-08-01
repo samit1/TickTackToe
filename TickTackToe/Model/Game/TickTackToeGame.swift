@@ -63,6 +63,8 @@ class TickTackToeGame {
     /// Begin a new game
     func newGame() {
         tickTackToeGrid.removeAll()
+        playerUp = PlayerUp.player1Up(player1)
+        gameState = .resultTBD
         for row in 0..<n {
             tickTackToeGrid.append([TickTackToeModelObject]())
             for col in 0..<n {
@@ -84,7 +86,6 @@ class TickTackToeGame {
         /// The current occupation of `tickTackToe` needs to be checked. An occupation state can change from `unoccupied` to `occupied`, but cannot change from `occupied` with one player to `occupied` with another player
         switch tickTackToeGrid[atRow][atCol].occupationState {
         case .unoccupied:
-            print("Unoccupied is about to change")
             tickTackToeGrid[atRow][atCol].changeOccupationState(.occupied(player))
             switchPlayerUp()
             determineIfWinner()
@@ -154,7 +155,6 @@ class TickTackToeGame {
         /// Check RXL diagonals of tickTackToeGrid for a winner
         while row < n && col >= 0 {
             diagonalObjects.append(tickTackToeGrid[row][col])
-            print("row: \(row) and col: \(col)" )
             row += 1
             col -= 1
         }
