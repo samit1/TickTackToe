@@ -230,9 +230,9 @@ class TickTackToeGame {
     }
     
     /// Determines if there is a winning player
-    private func determineWinningPlayer(tickTackToes: [TickTackToeModelObject]) -> Player? {
-        var players = Set<Player>()
-        var winningPlayer : Player?
+    private func determineWinningPlayer(tickTackToes: [TickTackToeModelObject]) -> TickTackToePlayer? {
+        var players = Set<TickTackToePlayer>()
+        var winningPlayer : TickTackToePlayer?
         for tickTackToe in tickTackToes {
             switch tickTackToe.occupationState {
             case .occupied(let player):

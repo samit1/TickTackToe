@@ -70,6 +70,7 @@ class GameResultViewController: UIViewController {
         delegate?.userDidSelectNewGame()
         dismiss(animated: true, completion: nil)
     }
+    
     @objc private func dismissButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
