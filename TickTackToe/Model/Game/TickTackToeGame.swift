@@ -11,6 +11,7 @@ import Foundation
 protocol MatchResultDelegate : class {
     func matchDidChangeStatus(result: MatchResult)
     func invalidMoveDidAttemptAt(row: Int, col: Int)
+    func playerUpDidChangeTo(player: TickTackToePlayer)
 }
 
 enum MatchResult {
@@ -38,8 +39,20 @@ class TickTackToeGame {
     /// Game is a nxn matrix. The game is specifically a 3x3 matrix
     private var n = 3
     
+
+    
     /// The player who owns the next move
-    private (set) var playerUp: PlayerUp
+    private (set) var playerUp : PlayerUp {didSet {
+        var player : TickTackToePlayer
+        switch playerUp {
+        case .player1Up(let personUp):
+            player = personUp
+        case .player2Up(let personUp):
+            player = personUp
+        }
+        matchDelegate?.playerUpDidChangeTo(player: player)
+        }
+    }
     
     /// Game is a nxn grid, represented as an array of arrays
     private (set) var tickTackToeGrid = [[TickTackToeModelObject]]()
@@ -51,7 +64,10 @@ class TickTackToeGame {
     init(player1: TickTackToePlayer, player2: TickTackToePlayer) {
         self.player1 = player1
         self.player2 = player2
-        playerUp = PlayerUp.player1Up(player1)
+        
+        self.playerUp = PlayerUp.player1Up(player1)
+        
+        setFirstPlayerForInit()
         newGame()
     }
     
@@ -63,8 +79,9 @@ class TickTackToeGame {
     /// Begin a new game
     func newGame() {
         tickTackToeGrid.removeAll()
-        playerUp = PlayerUp.player1Up(player1)
         gameState = .resultTBD
+        playerUp = .player1Up(player1)
+
         for row in 0..<n {
             tickTackToeGrid.append([TickTackToeModelObject]())
             for col in 0..<n {
@@ -251,6 +268,10 @@ class TickTackToeGame {
         self.player2 = player2
     }
     
+    
+    private func setFirstPlayerForInit() {
+        
+    }
     
 }
 

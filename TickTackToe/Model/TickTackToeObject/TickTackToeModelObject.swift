@@ -15,8 +15,6 @@ enum TickTackToeState : Hashable {
     
     case occupied(TickTackToePlayer)
     case unoccupied
-    
-    
 }
 
 struct TickTackToeModelObject {
