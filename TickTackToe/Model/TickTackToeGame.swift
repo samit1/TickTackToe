@@ -47,7 +47,6 @@ class TickTackToeGame {
     init(player1: Player, player2: Player) {
         self.player1 = player1
         self.player2 = player2
-        playerUp = PlayerUp.player1Up(player1)
         newGame()
     }
     
@@ -55,7 +54,7 @@ class TickTackToeGame {
         self.init(player1: Player(name: "Player1"), player2: Player(name: "Player2"))
     }
     
-    /// Game is a nxbn grid, represented as an array of arrays
+    /// Game is a nxn grid, represented as an array of arrays
     private (set) var tickTackToeGrid = [[TickTackToeGridObject]]()
     
     /// The delegate responsible for what to do with a result of a match
@@ -64,6 +63,7 @@ class TickTackToeGame {
     /// Begin a new game
     func newGame() {
         tickTackToeGrid.removeAll()
+        playerUp = PlayerUp.player1Up(player1)
         for row in 0..<n {
             tickTackToeGrid.append([TickTackToeGridObject]())
             for col in 0..<n {
