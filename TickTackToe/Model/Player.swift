@@ -8,8 +8,8 @@
 
 import Foundation
 
-struct Player {
-    private (set) var name : String!
+class Player {
+    var name : String!
     private (set) var uuid = NSUUID().uuidString
     
     init(name: String) {

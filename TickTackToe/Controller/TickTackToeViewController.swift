@@ -54,7 +54,7 @@ class TickTackToeViewController: UIViewController {
         print("Row is: \(tappedView.row)")
         print("Col is: \(tappedView.col)")
         
-        var playerUp: Player
+        var playerUp: TickTackToePlayer
         switch game.playerUp {
         case .player1Up(let player):
             playerUp = player
@@ -70,17 +70,25 @@ class TickTackToeViewController: UIViewController {
         
         /// for each model object
         /// go through and update the view
-        for row in game.tickTackToeGrid.indices {
-            for col in 0..<row {
-                let tickTackToeObj = game.tickTackToeGrid[row][col] /// model object
-                
-                guard let view = gridContainer.viewFor(row: row, col: col),
+        for (rowIndex, row) in game.tickTackToeGrid.enumerated() {
+            for col in row.indices {
+                let tickTackToeObj = game.tickTackToeGrid[rowIndex][col] /// model object
+                guard let view = gridContainer.viewFor(row: rowIndex, col: col),
                     let tickTackToeView = view as? TickTackToeView  else {return}
+                    let occupyingPlayer = tickTackToeObj.occupationState
+                    switch occupyingPlayer {
+                    case .unoccupied:
+                        tickTackToeView.configureView(viewRepresentation: .none)
+                    case .occupied(let player):
+                        switch player.playerType {
+                        case .player1:
+                            tickTackToeView.configureView(viewRepresentation: .x)
+                        case .player2:
+                            tickTackToeView.configureView(viewRepresentation: .o)
+                        }
+                        
+                }
                 
-//                tickTackToeObj.occupyByPlayer(<#T##player: Player##Player#>)
-                
-                
-                //                    tickTackToeView.configureView(viewRepresentation: .)
                 
             }
         }

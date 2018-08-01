@@ -24,7 +24,7 @@ enum TickTackToeViewRepresentation {
         case .o:
             return UIColor.blue
         case .x:
-            return UIColor.orange
+            return UIColor.red
         }
     }
 }
@@ -51,9 +51,7 @@ class TickTackToeView: UIButton, GridViewConfigurable {
     func configureView(viewRepresentation: TickTackToeViewRepresentation) {
         viewState = viewRepresentation
         translatesAutoresizingMaskIntoConstraints = false
-        print(backgroundColor)
         backgroundColor = viewState.stateColorRepresentation
-        print(backgroundColor)
     }
     
     

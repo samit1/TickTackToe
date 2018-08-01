@@ -60,7 +60,6 @@ class SquareGridContainer : UIView {
         }
         
         addSubview(containingStackView)
-        print(containingStackView.subviews)
     }
     
     func viewFor(row: Int, col: Int) -> UIView? {
@@ -71,6 +70,7 @@ class SquareGridContainer : UIView {
                 }
             }
         }
+        print("Nil was returned")
         return nil
     }
     
@@ -79,8 +79,6 @@ class SquareGridContainer : UIView {
         if numberOfTotalItems % numberPerRow != 0 {
             fatalError("This is not a square.")
         }
-        print(numberOfTotalItems)
-        print(numberPerRow)
         return numberOfTotalItems / numberPerRow
     }
     

@@ -18,24 +18,19 @@ enum MatchResult {
     case noWinnerGameOver
 }
 
-enum TickTackToePlayers {
-    case Player1(Player)
-    case Player2(Player)
-}
-
 
 class TickTackToeGame {
     
     enum PlayerUp {
-        case player1Up(Player)
-        case player2Up(Player)
+        case player1Up(TickTackToePlayer)
+        case player2Up(TickTackToePlayer)
     }
 
     /// First player of the game
-    private (set) var player1: Player
+    private (set) var player1: TickTackToePlayer
     
     /// Second player of the game
-    private (set) var player2: Player
+    private (set) var player2: TickTackToePlayer
     
     /// Game is a nxn matrix. The game is specifically a 3x3 matrix
     private var n = 3
@@ -43,19 +38,21 @@ class TickTackToeGame {
     /// The player who owns the next move
     private (set) var playerUp: PlayerUp
     
-    
-    init(player1: Player, player2: Player) {
+    /// Initializes a new game
+    init(player1: TickTackToePlayer, player2: TickTackToePlayer) {
         self.player1 = player1
         self.player2 = player2
+        playerUp = PlayerUp.player1Up(player1)
         newGame()
     }
     
+    /// Convenience initialization - begins the game with a player1 and player2
     convenience init() {
-        self.init(player1: Player(name: "Player1"), player2: Player(name: "Player2"))
+        self.init(player1: TickTackToePlayer(playerType: .player1), player2: TickTackToePlayer(playerType: .player2))
     }
     
     /// Game is a nxn grid, represented as an array of arrays
-    private (set) var tickTackToeGrid = [[TickTackToeGridObject]]()
+    private (set) var tickTackToeGrid = [[TickTackToeModelObject]]()
     
     /// The delegate responsible for what to do with a result of a match
     weak var matchDelegate : MatchResultDelegate?
@@ -63,18 +60,16 @@ class TickTackToeGame {
     /// Begin a new game
     func newGame() {
         tickTackToeGrid.removeAll()
-        playerUp = PlayerUp.player1Up(player1)
         for row in 0..<n {
-            tickTackToeGrid.append([TickTackToeGridObject]())
+            tickTackToeGrid.append([TickTackToeModelObject]())
             for col in 0..<n {
-                tickTackToeGrid[row].append(TickTackToeGridObject(row: row, col: col))
+                tickTackToeGrid[row].append(TickTackToeModelObject(row: row, col: col))
             }
         }
-        print(tickTackToeGrid)
     }
     
-    
-    func selected(by player: Player, atRow: Int, atCol: Int) {
+    /// Handles what to do when a player selects a TickTackToe object
+    func selected(by player: TickTackToePlayer, atRow: Int, atCol: Int) {
         guard tickTackToeGrid.indices.contains(atRow), tickTackToeGrid[0].indices.contains(atCol) else {
             return
         }
@@ -84,17 +79,20 @@ class TickTackToeGame {
         determineIfWinner()
     }
     
-    func getTickTackToe(forRow: Int, forCol: Int) -> TickTackToeGridObject? {
+    /// Getter method to retrieve an individual TickTackToe object. Method safely checks for out of bounds conditions and returns nil if an object does not exist.
+    func getTickTackToe(forRow: Int, forCol: Int) -> TickTackToeModelObject? {
         guard tickTackToeGrid.indices.contains(forRow), tickTackToeGrid[0].indices.contains(forCol)  else {return nil}
         
         return tickTackToeGrid[forRow][forCol]
     }
     
+    /// Determine if there is a winner for the game
+    /// Each time this method is called, the delegate is notified of the `MatchResult`
     private func determineIfWinner() {
         
         /// Check rows of tickTackToeGrid for a winner
         for row in tickTackToeGrid {
-            var tickTackToes = [TickTackToeGridObject]()
+            var tickTackToes = [TickTackToeModelObject]()
             for col in row {
                 tickTackToes.append(col)
             }
@@ -108,7 +106,7 @@ class TickTackToeGame {
         
         /// Check columns of tickTackToeGrid for a winner
         for col in 0..<n {
-            var tickTackToes = [TickTackToeGridObject]()
+            var tickTackToes = [TickTackToeModelObject]()
             for row in 0..<n {
                 tickTackToes.append(tickTackToeGrid[row][col])
             }
@@ -124,7 +122,7 @@ class TickTackToeGame {
         var row = 0
         var col = 0
         
-        var diagonalObjects = [TickTackToeGridObject]()
+        var diagonalObjects = [TickTackToeModelObject]()
         while row < n && col < n {
             diagonalObjects.append(tickTackToeGrid[row][col])
             row += 1
@@ -164,6 +162,7 @@ class TickTackToeGame {
         }
     }
     
+    /// Helper method to determine whether all grid objects are occupied
     private func fullyOccupied() -> Bool {
         
         var occupiedCount = 0
@@ -181,8 +180,8 @@ class TickTackToeGame {
         return occupiedCount == n * n
     }
     
- 
-    private func determineWinningPlayer(tickTackToes: [TickTackToeGridObject]) -> Player? {
+    /// Determines if there is a winning player
+    private func determineWinningPlayer(tickTackToes: [TickTackToeModelObject]) -> Player? {
         var players = Set<Player>()
         var winningPlayer : Player?
         for tickTackToe in tickTackToes {
@@ -215,9 +214,13 @@ class TickTackToeGame {
         }
     }
     
-    private func setPlayers(player1: String, player2: String) {
-        let player1 = Player(name: player1)
-        let player2 = Player(name: player2)
+    private func setPlayers(player1Name: String, player2Name: String) {
+        let player1 = TickTackToePlayer(playerType: .player1)
+        player1.name = player1Name
+        
+        let player2 = TickTackToePlayer(playerType: .player2)
+        player2.name = player1Name
+        
         self.player1 = player1
         self.player2 = player2
     }
