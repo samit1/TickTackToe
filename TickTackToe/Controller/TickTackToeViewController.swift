@@ -109,7 +109,6 @@ class TickTackToeViewController: UIViewController {
                         /// The object is occupied by player2, update viewRepresentation
                         tickTackToeView.configureView(viewRepresentation: .o)
                     }
-                    
                 }
             }
         }
@@ -136,15 +135,7 @@ class TickTackToeViewController: UIViewController {
         print("Row is: \(tappedView.row)")
         print("Col is: \(tappedView.col)")
         
-        var playerUp: TickTackToePlayer
-        switch game.playerUp {
-        case .player1Up(let player):
-            playerUp = player
-        case .player2Up(let player):
-            playerUp = player
-        }
-        
-        game.selected(by: playerUp, atRow: tappedView.row, atCol: tappedView.col)
+        game.selected(atRow: tappedView.row, atCol: tappedView.col)
         updateViewForModel()
     }
     
@@ -222,8 +213,4 @@ extension TickTackToeViewController : GameResultsPopOverDelegate {
     func userDidSelectNewGame() {
         beginNewGame()
     }
-    
-
-    
-    
 }

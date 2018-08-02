@@ -27,6 +27,7 @@ enum MatchResult {
 
 class TickTackToeGame {
     
+    /// The state of the game. Initialized to `.resultTBD` as the result of the game is unknown at the start
     private (set) var gameState = MatchResult.resultTBD
     
     /// Defines which player owns the next moves, there are two cases.
@@ -94,7 +95,7 @@ class TickTackToeGame {
     }
     
     /// Handles what to do when a player selects a TickTackToe object
-    func selected(by player: TickTackToePlayer, atRow: Int, atCol: Int) {
+    func selected(atRow: Int, atCol: Int) {
         guard tickTackToeGrid.indices.contains(atRow), tickTackToeGrid[0].indices.contains(atCol) else {
             return
         }
@@ -103,6 +104,15 @@ class TickTackToeGame {
             matchDelegate?.userDidAttemptMoveAfterGame(result: gameState)
             return 
         }
+        
+        var player: TickTackToePlayer
+        switch playerUp {
+        case .player1Up(let playerUp):
+            player = playerUp
+        case .player2Up(let playerUp):
+            player = playerUp
+        }
+        
         
         /// The current occupation of `tickTackToe` needs to be checked. An occupation state can change from `unoccupied` to `occupied`, but cannot change from `occupied` with one player to `occupied` with another player
         switch tickTackToeGrid[atRow][atCol].occupationState {
