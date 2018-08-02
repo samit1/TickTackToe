@@ -15,6 +15,7 @@ protocol GameResultsPopOverDelegate : class {
 
 class GameResultViewController: UIViewController {
     
+    /// The title that is shown on screen
     private var titleLabel: UILabel = {
         let lbl = UILabel()
         lbl.translatesAutoresizingMaskIntoConstraints = false
@@ -23,26 +24,27 @@ class GameResultViewController: UIViewController {
         return lbl
     }()
     
+    /// The new game button
     private lazy var newGameButton : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("New Game", for: .normal)
         btn.backgroundColor = UIColor.blue
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(newGamePressed))
-        btn.addGestureRecognizer(gesture)
+        btn.addTarget(self, action: #selector(newGamePressed), for: .touchUpInside)
         return btn
     }()
     
+    /// The dismiss button
     private lazy var dismissButton : UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("Nah", for: .normal)
         btn.backgroundColor = UIColor.orange
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissButtonPressed))
-        btn.addGestureRecognizer(gesture)
+        btn.addTarget(self, action: #selector(dismissButtonPressed), for: .touchUpInside)
         return btn
     }()
     
+    /// The containing vertical `UIStackView`
     private var vStackView : UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,8 +53,10 @@ class GameResultViewController: UIViewController {
         return stackView
     }()
     
+    /// The delegate responsible for managing what the user does after ViewController is presented
     weak var delegate : GameResultsPopOverDelegate?
     
+    /// The text representation for the title that should be shown on screen
     var titleForResults: String! {
         didSet {
             if let txt = titleForResults {
@@ -61,22 +65,12 @@ class GameResultViewController: UIViewController {
         }
     }
     
+    // MARK: Lifecycle methods
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
     }
-    
-    @objc private func newGamePressed() {
-        delegate?.userDidSelectNewGame()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @objc private func dismissButtonPressed() {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
+
     override func loadView() {
         super.loadView()
         
@@ -99,6 +93,21 @@ class GameResultViewController: UIViewController {
         vStackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
         vStackView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
     }
+    
+    
+    /// MARK: Gesture handlers
+    
+    /// Dismisses the screen and notifies the delegate the user requested for a new game
+    @objc private func newGamePressed() {
+        delegate?.userDidSelectNewGame()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    /// Dismisses the screen
+    @objc private func dismissButtonPressed() {
+        dismiss(animated: true, completion: nil)
+    }
+    
     
     
 }

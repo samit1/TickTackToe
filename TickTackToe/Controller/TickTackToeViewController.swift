@@ -31,9 +31,7 @@ class TickTackToeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.orange
-        
         gridContainer.configureGridWithViews(numberOfTotalItems: 9, numberPerRow: 3, viewType: TickTackToeView.self)
-        
         setTitleForLoad()
         addGesturesToViews()
     }
