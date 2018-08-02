@@ -35,7 +35,7 @@ class TickTackToeGame {
         case player1Up(TickTackToePlayer)
         case player2Up(TickTackToePlayer)
     }
-
+    
     /// First player of the game
     private var player1: TickTackToePlayer
     
@@ -45,7 +45,6 @@ class TickTackToeGame {
     /// Game is a nxn matrix. The game is specifically a 3x3 matrix
     private var n = 3
     
-
     
     /// The player who owns the next move
     private (set) var playerUp : PlayerUp {didSet {
@@ -56,6 +55,8 @@ class TickTackToeGame {
         case .player2Up(let personUp):
             player = personUp
         }
+        
+        /// Notify the delegate that the player up did change
         matchDelegate?.playerUpDidChangeTo(player: player)
         }
     }
@@ -80,12 +81,13 @@ class TickTackToeGame {
         self.init(player1: TickTackToePlayer(playerType: .player1), player2: TickTackToePlayer(playerType: .player2))
     }
     
-    /// Begin a new game
+    /// Begins a new game and resets all game states
     func newGame() {
+        
         tickTackToeGrid.removeAll()
         gameState = .resultTBD
         playerUp = .player1Up(player1)
-
+        
         for row in 0..<n {
             tickTackToeGrid.append([TickTackToeModelObject]())
             for col in 0..<n {
