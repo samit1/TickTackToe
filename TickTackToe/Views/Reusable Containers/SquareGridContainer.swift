@@ -34,10 +34,26 @@ class SquareGridContainer : UIView {
                 views += stackView.arrangedSubviews
             }
         }
-        
         return views
     }
+    
+    // MARK: Lifecycle Methods
+    override func updateConstraints() {
+        if viewsNeedConstains {
+            viewsNeedConstains = !viewsNeedConstains
+            
+            let margins = safeAreaLayoutGuide
+            containingStackView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+            containingStackView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+            containingStackView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+            containingStackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        }
+        super.updateConstraints()
+    }
  
+    // MARK: Public
+    
+    /// Configures view with a square grid
     /// - parameter numberOfTotalItems: The total number of UIView types that should be shown in the Grid
     /// - parameter numberPerRow: The total number of items each that should be in each row of the swuare grid
     /// - parameter viewType: The type of view that is being added to the grid
@@ -64,6 +80,7 @@ class SquareGridContainer : UIView {
         addSubview(containingStackView)
     }
     
+    /// Retrieve an object in the grid by `row` and `col`
     func viewFor(row: Int, col: Int) -> UIView? {
         for view in getViewsInGrid() {
             if let gridObject = view as? GridViewConfigurable {
@@ -84,16 +101,4 @@ class SquareGridContainer : UIView {
         return numberOfTotalItems / numberPerRow
     }
     
-    override func updateConstraints() {
-        if viewsNeedConstains {
-            viewsNeedConstains = !viewsNeedConstains
-            
-            let margins = safeAreaLayoutGuide
-            containingStackView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-            containingStackView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
-            containingStackView.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-            containingStackView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
-        }
-        super.updateConstraints()
-    }
 }

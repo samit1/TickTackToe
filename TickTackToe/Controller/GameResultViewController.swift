@@ -66,6 +66,7 @@ class GameResultViewController: UIViewController {
     }
     
     // MARK: Lifecycle methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
@@ -107,7 +108,4 @@ class GameResultViewController: UIViewController {
     @objc private func dismissButtonPressed() {
         dismiss(animated: true, completion: nil)
     }
-    
-    
-    
 }
