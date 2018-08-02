@@ -264,6 +264,8 @@ class TickTackToeGame {
             return nil
         }
     }
+    
+    /// Switches which player's turn it is
     private func switchPlayerUp() {
         switch playerUp {
         case .player1Up(_):
@@ -273,6 +275,7 @@ class TickTackToeGame {
         }
     }
     
+    /// Sets the players' names
     private func setPlayers(player1Name: String, player2Name: String) {
         let player1 = TickTackToePlayer(playerType: .player1)
         player1.name = player1Name
